@@ -22,4 +22,26 @@ public class List {
             temp.next = node;
         }
     }
+    void insertBefore(int cur,int data){
+        Node node= new Node(data);
+        if(head == null){
+            head = node;
+        }
+        else{
+            if(cur == head.data){
+                Node temp = head;
+                node.next = temp;
+                head = node;
+            }
+            else{
+                Node temp = head,prev=null;
+                while(cur != temp.data){
+                    prev = temp;
+                    temp = temp.next;
+                }
+                node.next = prev.next;
+                prev.next = node;
+            }
+        }
+    }
 }

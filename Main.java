@@ -1,4 +1,7 @@
 package linked_list;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 public class Main {
     static boolean isPresent(Node node,List l){
@@ -46,26 +49,66 @@ public class Main {
         }
         return un;
     }
+    static List reverseBlocks(Node head, int blocks[]){
+        Node temp = head,cur = head;
+        List ans = new List();
+        int i = 0;
+        while(temp != null && i < blocks.length){
+            while (blocks[i] > 0 && temp != null){
+                ans.insertBefore(cur.data,temp.data);
+                cur = temp;
+                temp = temp.next;
+                blocks[i]--;
+            }
+            if(temp != null) {
+                ans.append(temp.data);
+                cur = temp;
+                temp = temp.next;
+            }
+            i++;
+            if(i < blocks.length)
+                blocks[i]--;
+        }
+        while(temp != null){
+            ans.append(temp.data);
+            temp = temp.next;
+        }
+        return ans;
+    }
     public static void main(String args[]){
-        Scanner sc = new Scanner(System.in);
-        List l1 = new List();
-        int n1 = sc.nextInt();
-        for (int i=0; i < n1; i++){
-            int d = sc.nextInt();
-            l1.append(d);
+//        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List l = new List();
+        int blocks[] = new int[0];
+        try {
+            String inp[] = br.readLine().split(" ");
+            for(String s : inp){
+                int d = Integer.parseInt(s);
+                if(d != -1){
+                    l.append(d);
+                }
+            }
+            int k = Integer.parseInt(br.readLine());
+            inp = br.readLine().split(" ");
+            blocks = new int[k];
+            for(int i = 0; i < k; i++){
+                blocks[i] = Integer.parseInt(inp[i]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-//        displayList(l1);
-        List l2 = new List();
-        System.out.println("Elements in 2nd list : ");
-        int n2 = sc.nextInt();
-        for (int i=0; i < n2; i++){
-            int d = sc.nextInt();
-            l2.append(d);
-        }
-        List in = intersection(l1,l2);
-        printList(in);
-        List un = union(l1,l2,in);
-        printList(un);
+        List ans = reverseBlocks(l.head,blocks);
+        printList(ans);
+//        for(int i=0;i<5;i++){
+//            try {
+//                l.append(Integer.parseInt(br.readLine()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        printList(l);
+//        l.insertBefore(1,6);
+//        printList(l);
     }
 }
 /*
@@ -81,4 +124,9 @@ public class Main {
 5
 6
 7
+* */
+/*
+1 2 3 4 5 6 7 8 9 10 11 -1
+3
+2 3 4
 * */
